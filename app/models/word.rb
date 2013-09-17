@@ -1,22 +1,7 @@
 class Word < ActiveRecord::Base
 
-  def self.canonical(input)
-    input.downcase.split('').sort.join
-  end
-
   def self.anagrams(input)
-    array = []
-    Word.all.each do |dict_word|
-      if Word.canonical(dict_word.word) == Word.canonical(input)
-        array << dict_word
-      end
-    end
-    array
-  end
-
-  def self.anagram(input)
-    Word.all.select do |dict_word|
-      canonical(dict_word.word) == canonical(input)
-    end
+    anagram = Word.where(:canonical => input.downcase.split('').sort.join)
+    anagram
   end
 end
